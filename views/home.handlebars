@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>The HTML5 Herald</title>
+  </head>
+  <body>
+    <h1>Posts</h1>
+    <ul id="posts-list">
+      {{#each posts}}
+        <li><a href="/posts/{{@index}}">{{this.title}}</li>
+      {{/each}}
+    </ul>
+    <script src="https://unpkg.com/pusher-feeds-client@0.10.0"></script>
+    <script type="text/javascript">
+      const feeds = new Feeds({
+        instanceLocator: "v1:us1:5b6f653d-e563-48b3-b689-82c0556cbb8d",
+      })
+const posts = feeds.feed("posts")
+posts.subscribe({
+  onItem: item => {
+    var li = document.createElement("li")
+    var link = document.createElement("a")
+    link.setAttribute('href',`/posts/${item.data.index}`);
+    link.innerHTML = item.data.title
+    li.appendChild(link)
+    document.getElementById("posts-list").appendChild(li)
+  }
+})
+    </script>
+  </body>
+</html>

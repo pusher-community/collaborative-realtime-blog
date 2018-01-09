@@ -1,0 +1,33 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <title>The HTML5 Herald</title>
+  </head>
+  <body>
+    <form action="/publish" method="POST" id="publish-form">
+      <input type="text" name="title">
+      <textarea name="content" id="content-input" style="display:none"></textarea>
+      <input type="submit" />
+    </form>
+    <div id="editor"></div>
+
+    <script type="text/javascript" src="https://static.pusherplatform.com/textsync/us1/textsync.js"></script>
+    <script type="text/javascript">
+      const textSyncInstance = new TextSync({
+        instanceLocator: "{{TEXTSYNC_INSTANCE_LOCATOR}}",
+      })
+textSyncInstance.createEditor({
+  docId: "{{docId}}",
+  element: "#editor",
+  richText: false
+}).then(editor => {
+  document.querySelector("#publish-form").addEventListener("submit", e => {
+    document.querySelector('#content-input').value = editor.getText()
+  })
+})
+
+
+    </script>
+  </body>
+</html>
